@@ -1,4 +1,4 @@
-The method in this article is based on "Ageing LTR insertions"(https://github.com/SIWLab/Lab_Info/wiki/Ageing-LTR-insertions). The method mentioned in this article is carried out. However, many parts of the article are brief introductions, and the provided script has also become invalid, so I can only rewrite the script by myself. Here only supplements the practical part. 
+The method in this article is based on the Tutorials： "Ageing LTR insertions"(https://github.com/SIWLab/Lab_Info/wiki/Ageing-LTR-insertions). However, many parts of the Tutorials are brief introductions, and the provided script has also become invalid, so I can only rewrite the script by myself.  
 
 First, installing the software that will be used later. apt or conda are recommanded.
 

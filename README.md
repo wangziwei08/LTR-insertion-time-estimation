@@ -135,7 +135,7 @@ R
 install.packages("ape")
 ```
 
-Use ape to calculate the 
+Use ape package to calculate the insetion time based on "T = K/(2r)"
 ```
 library(ape)
 library(xlsx)

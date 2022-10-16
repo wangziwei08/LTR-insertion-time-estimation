@@ -93,19 +93,20 @@ ulimit -n 100000  #Lift the limit on the number of files, otherwise an error wil
 awk  '/###/{filename=NR".txt"}; /long_terminal_repeat/{gsub(/Parent=/,"");print $1,$4,$5,$9  >filename}' OFS="\t"  EGL.gff.rename  #generate ltr bed files of each LTR-RT 
 ls | grep txt  | sort -n > file.list   #generate list of bed file
 cp file.list ..
-cd ..
 ```
 
 
 The goal is to use bedtools to extract each pair of LTR, and then use muscle to align, write python script here to generate bash： 
-#This script can be run under linux or windows system
+###This script can be run under linux or windows system with python. If you are using windows OS, please remeber to change line endings form "CF LF" to "LF"!!!
+##Please replace "ensete_glaucum.assembly.fna" with your own geneme file name.
 ```
+#!/bin/usr/python
 filelistname = 'F:/sequence/EGL_hub/file.list' #Path to file.list
 
 fileresult = filelistname+".sh"
 f = open(fileresult , "w")
 
-with open(filelistname,'r') as r:
+with open(filelistname,'r',newline="\n") as r:
     lines=r.read().splitlines()
     i = 0
     for l in lines:

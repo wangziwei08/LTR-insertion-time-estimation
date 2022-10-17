@@ -88,11 +88,11 @@ chr01	LTRharvest	target_site_duplication	31422	31425	.	?	.	Parent=repeat_region2
 ```
 mkdir ltr.seq
 cd ltr.seq
-cp EGL.gff.rename
+gff_name=AER0102.fasta.mod.harvest.combine.gff   ###enter your edited gff name.
+cp ../${gff_name} .    
 ulimit -n 100000  #Lift the limit on the number of files, otherwise an error will be reported 
-awk  '/###/{filename=NR".txt"}; /long_terminal_repeat/{gsub(/Parent=/,"");print $1,$4,$5,$9  >filename}' OFS="\t"  EGL.gff.rename  #generate ltr bed files of each LTR-RT 
+awk  '/###/{filename=NR".txt"}; /long_terminal_repeat/{gsub(/Parent=/,"");print $1,$4,$5,$9  >filename}' OFS="\t" ${gff_name}  #generate ltr bed files of each LTR-RT 
 ls | grep txt  | sort -n > file.list   #generate list of bed file
-cp file.list ..
 ```
 
 
@@ -125,8 +125,8 @@ bash file.list.sh
 
 Put all the alignment results (end with .afa) into a new folder. Here we use the R package ape for calculation: 
 ```
-mkdir ../EGL.ltr
-cp *afa ../EGL.ltr
+mkdir ../ltr.alignment
+cp *afa ../ltr.alignment
 ```
 
 

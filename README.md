@@ -86,8 +86,8 @@ chr01	LTRharvest	target_site_duplication	31422	31425	.	?	.	Parent=repeat_region2
 
 
 ```
-mkdir ltr
-cd ltr
+mkdir ltr.seq
+cd ltr.seq
 cp EGL.gff.rename
 ulimit -n 100000  #Lift the limit on the number of files, otherwise an error will be reported 
 awk  '/###/{filename=NR".txt"}; /long_terminal_repeat/{gsub(/Parent=/,"");print $1,$4,$5,$9  >filename}' OFS="\t"  EGL.gff.rename  #generate ltr bed files of each LTR-RT 
@@ -101,7 +101,7 @@ The goal is to use bedtools to extract each pair of LTR, and then use muscle to 
 ##Please replace "ensete_glaucum.assembly.fna" with your own geneme file name.
 ```
 #!/bin/usr/python
-filelistname = 'F:/sequence/EGL_hub/file.list' #Path to file.list
+filelistname = 'F:/sequence/EGL_hub/ltr.seq/file.list' #Path to file.list
 
 fileresult = filelistname+".sh"
 f = open(fileresult , "w")
@@ -111,13 +111,13 @@ with open(filelistname,'r',newline="\n") as r:
     i = 0
     for l in lines:
        i= i+1
-       f.write("bedtools getfasta -fi ../ensete_glaucum.assembly.fna -bed "  + l + " -fo retroltr" + str(i) +".fa -name"+ '\n')  #extract LTR fasta file
-       f.write("muscle -in retroltr" + str(i) +".fa -out retroltr" + str(i) +".fa.afa" + '\n')   #do alignment of each pairs of LTRs
+       f.write("bedtools getfasta -fi ../genome.fa -bed "  + l + " -fo retroltr" + str(i) +".fa -name"+ '\n')  #extract LTR fasta file, the genome file name should be change.
+       f.write("muscle -in retroltr" + str(i) +".fa -out retroltr" + str(i) +".fa.afa" + '\n')   #do alignment of each pairs of LTRs 
 
 ```
 Afer running this, a file name file.list.sh should be generated. And run it by
 ```
-cd ltr
+cd ltr.seq
 bash file.list.sh
 ```
 
@@ -141,11 +141,12 @@ Use ape package to calculate the insetion time based on "T = K/(2r)"
 library(ape)
 library(xlsx)
 
-setwd('F:/sequence/ltr_time/EGL.ltr')
+setwd('F:/sequence/ltr_time/ltr.alignment')    ###The path should be changed
+list <- list.files()
 fas.F1 = read.FASTA(list[1])
 mat1 = dist.dna(fas.F1,as.matrix = T, model = "K80")
 merge.data = mat1[1,2]
-list <- list.files()
+
 mutate_rate <- 1.3e-8 #according to rice mutation rate described in Ma, 2004
 time1 = merge.data/(2*mutate_rate)
 v1.merge = c(list[1],merge.data, time)
@@ -159,7 +160,7 @@ for (i in 2:n){
   v.new = c(list[i], mat.new[1,2], time)
   v1.merge = rbind(v1.merge, v.new)
 }
-write.xlsx(v1.merge,file = 'F:/sequence/ltr_time/EGL.xls')
+write.csv(v1.merge,file = '../Insert_time.csv')
 
 
 ```

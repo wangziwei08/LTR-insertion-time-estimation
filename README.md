@@ -115,7 +115,7 @@ with open(filelistname,'r',newline="\n") as r:
        f.write("muscle -in retroltr" + str(i) +".fa -out retroltr" + str(i) +".fa.afa" + '\n')   #do alignment of each pairs of LTRs 
 
 ```
-Afer running this, a file name file.list.sh should be generated. And run it by
+After running this, a file name file.list.sh should be generated. And run it by
 ```
 cd ltr.seq
 bash file.list.sh
